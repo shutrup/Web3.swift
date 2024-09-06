@@ -51,7 +51,7 @@ let package = Package(
             path: "Sources",
             sources: ["Core", "FoundationHTTP"]),
         .target(
-            name: "Secp256k1Library", // Updated name to avoid the conflict
+            name: "Secp256k1Local", // Updated name for the local target to avoid the conflict
             dependencies: [
                 .product(name: "BigInt", package: "BigInt"),
                 .product(name: "CryptoSwift", package: "CryptoSwift"),
@@ -60,7 +60,7 @@ let package = Package(
                 .product(name: "WebSocketKit", package: "websocket-kit"),
             ],
             path: "Sources",
-            sources: ["Secp256k1Library"]),
+            sources: ["Secp256k1Local"]), // Local source renamed to avoid conflict
         .target(
             name: "Web3PromiseKit",
             dependencies: [
