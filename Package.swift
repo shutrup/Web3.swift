@@ -27,7 +27,7 @@ let package = Package(
         // Core dependencies
         .package(url: "https://github.com/attaswift/BigInt.git", from: "5.3.0"),
         .package(url: "https://github.com/krzyzanowskim/CryptoSwift.git", from: "1.5.1"),
-        .package(name: "secp256k1", url: "https://github.com/Boilertalk/secp256k1.swift.git", from: "0.1.7"),
+        .package(name: "secp256k1", url: "https://github.com/Boilertalk/secp256k1.swift.git", from: "0.1.7"), // External dependency
         .package(url: "https://github.com/apple/swift-collections.git", .upToNextMajor(from: "1.0.3")),
         .package(url: "https://github.com/vapor/websocket-kit", .upToNextMajor(from: "2.6.1")),
 
@@ -44,23 +44,25 @@ let package = Package(
             dependencies: [
                 .product(name: "BigInt", package: "BigInt"),
                 .product(name: "CryptoSwift", package: "CryptoSwift"),
-                .product(name: "secp256k1", package: "secp256k1"), // External dependency remains the same
+                .product(name: "secp256k1", package: "secp256k1"), // External dependency
                 .product(name: "Collections", package: "swift-collections"),
                 .product(name: "WebSocketKit", package: "websocket-kit"),
             ],
             path: "Sources",
             sources: ["Core", "FoundationHTTP"]),
+        
+        // Renaming the local target to avoid conflict with external secp256k1
         .target(
-            name: "Secp256k1Local", // Updated name for the local target to avoid the conflict
+            name: "Secp256k1Local", // Changed from "secp256k1" to "Secp256k1Local"
             dependencies: [
                 .product(name: "BigInt", package: "BigInt"),
                 .product(name: "CryptoSwift", package: "CryptoSwift"),
-                .product(name: "secp256k1", package: "secp256k1"), // External dependency remains the same
                 .product(name: "Collections", package: "swift-collections"),
                 .product(name: "WebSocketKit", package: "websocket-kit"),
             ],
             path: "Sources",
-            sources: ["Secp256k1Local"]), // Local source renamed to avoid conflict
+            sources: ["Secp256k1Local"]), // Source renamed to match the new target name
+        
         .target(
             name: "Web3PromiseKit",
             dependencies: [
@@ -70,6 +72,7 @@ let package = Package(
             ],
             path: "Sources",
             sources: ["PromiseKit"]),
+        
         .target(
             name: "Web3ContractABI",
             dependencies: [
@@ -79,6 +82,7 @@ let package = Package(
             ],
             path: "Sources",
             sources: ["ContractABI"]),
+        
         .testTarget(
             name: "Web3Tests",
             dependencies: [
